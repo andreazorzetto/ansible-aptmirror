@@ -1,0 +1,18 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: andreazorzetto
+  description: aptmirror server setup
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+      - trusty
+  galaxy_tags:
+    - aptmirror
+    - software
+    - Linux
+    - repositories
+    - apt

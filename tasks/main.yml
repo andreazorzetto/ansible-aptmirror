@@ -1,0 +1,102 @@
+---
+##################################################
+# Software setup
+- name: install apt-mirror
+  apt: name={{ item }} state=present
+  with_items:
+  - proftpd-basic
+  - apt-mirror
+##################################################
+
+##################################################
+# Proftpd: fixing init script bug https://bugs.launchpad.net/ubuntu/+source/proftpd-dfsg/+bug/1246245
+- name: fixing proftpd init script
+  copy: src=proftpd dest=/etc/init.d/proftpd mode=0655
+##################################################
+
+##################################################
+# Proftpd: creating share user
+- name: placing anonymous user configuration for ftp
+  copy: src=anonymous.conf dest=/etc/proftpd/conf.d/anonymous.conf
+
+- name: restarting proftpd
+  service: name=proftpd state=restarted
+##################################################
+
+##################################################
+# crontab for cache update and indexes flush
+- name: "setup mirror cache update job in crontab"
+  cron:
+    name: "aptmirror update"
+    minute: 0
+    hour: 2
+    weekday: 0
+    job: "/usr/bin/apt-mirror >> /var/spool/apt-mirror/apt-mirror.log"
+
+# due to a bug in apt-mirror wget when downloading indexes hosted on aws s3
+- name: "crontab for indexes flush"
+  cron:
+    name: "indexes flush"
+    minute: 0
+    hour: 1
+    weekday: 0
+    job: "rm -rf /var/spool/apt-mirror/skel/*"
+##################################################
+
+##################################################
+# flushing repos indexes if any
+- name: flushing repos indexes if any
+  file: name=/var/spool/apt-mirror/skel state=absent
+##################################################
+
+##################################################
+# apt mirror
+- name: Place mirror.list configuration
+  template:
+    src: mirror.list.j2
+    dest: /etc/apt/mirror.list
+    backup: yes
+
+- name: run apt-mirror
+  shell: apt-mirror > /var/spool/apt-mirror/apt-mirror.log
+  when: cache_update
+##################################################
+
+##################################################
+# FTP shares configuration
+- name: create keys folder
+  file: path=/srv/ftp/keys state=directory
+
+- name: create new ftp folder for repo
+  file: path=/srv/ftp/{{ item.title }} state=directory
+  with_items: "{{ repos }}"
+
+- name: mount repos to ftp folders
+  mount:
+    name: /srv/ftp/{{ item.title }}
+    src: /var/spool/apt-mirror/mirror/{{ item.url }}
+    fstype: none
+    opts: defaults,bind
+    state: mounted
+  with_items: "{{ repos }}"
+##################################################
+
+##################################################
+# FTP shares keys
+- name: download repo keys (get_url)
+  get_url: url={{ item.keyurl }} dest=/srv/ftp/keys/{{ item.title }}.key
+  when: item.keyurl is defined
+  with_items: "{{ repos }}"
+
+## only if the keyurl is undefined:
+
+- name: download repo keys (gpg)
+  shell: gpg --keyserver keyserver.ubuntu.com --recv {{ item.gpgkey }}
+  when: item.gpgkey is defined
+  with_items: "{{ repos }}"
+
+- name: export repos keys
+  shell: gpg --export --armor {{ item.gpgkey }} > /srv/ftp/keys/{{ item.title }}.key
+  when: item.gpgkey is defined
+  with_items: "{{ repos }}"
+##################################################

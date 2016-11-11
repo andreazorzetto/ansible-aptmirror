@@ -1,0 +1,165 @@
+---
+repos:
+  - title: ubuntu
+    source: true
+    proto: http
+    url: archive.ubuntu.com/ubuntu
+    distro:
+      - trusty
+      - trusty-security
+      - trusty-updates
+    components:
+      - main
+      - restricted
+      - universe
+      - multiverse
+    gpgkey: 40976EAF437D05B5
+
+  - title: ondrej
+    source: true
+    proto: http
+    url: ppa.launchpad.net/ondrej/php/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    gpgkey: E5267A6C
+
+  - title: grafana
+    source: false
+    proto: https
+    url: packagecloud.io/grafana/stable/debian
+    distro:
+      - wheezy
+    components:
+      - main
+    keyurl: https://packagecloud.io/gpg.key
+
+  - title: influxdata
+    source: false
+    proto: https
+    url: repos.influxdata.com/ubuntu
+    distro:
+      - trusty
+    components:
+      - stable
+    keyurl: https://repos.influxdata.com/influxdb.key
+
+  - title: openjdk
+    source: true
+    proto: http
+    url: ppa.launchpad.net/openjdk-r/ppa/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    gpgkey: 86F44E2A
+
+  - title: jenkins
+    source: false
+    proto: http
+    url: pkg.jenkins-ci.org/debian-stable
+    distro:
+      - binary/
+    components: []
+    keyurl: https://jenkins-ci.org/debian/jenkins-ci.org.key
+
+  - title: erlang
+    source: false
+    proto: https
+    url: packages.erlang-solutions.com/ubuntu
+    distro:
+      - trusty
+    components:
+      - contrib
+    keyurl: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+
+  - title: rabbitmq
+    source: false
+    proto: http
+    url: www.rabbitmq.com/debian/
+    distro:
+      - testing
+    components:
+      - main
+    keyurl: https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+
+  - title: filebeats
+    source: false
+    proto: https
+    url: packages.elastic.co/beats/apt
+    distro:
+      - stable
+    components:
+      - main
+    keyurl: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+  - title: logstash
+    source: false
+    proto: https
+    url: packages.elastic.co/logstash/2.3/debian
+    distro:
+      - stable
+    components:
+      - main
+    keyurl: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+  - title: kibana
+    source: false
+    proto: https
+    url: packages.elastic.co/kibana/4.5/debian
+    distro:
+      - stable
+    components:
+      - main
+    keyurl: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+  - title: elasticsearch
+    source: false
+    proto: https
+    url: packages.elastic.co/elasticsearch/2.x/debian
+    distro:
+      - stable
+    components:
+      - main
+    keyurl: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+  - title: zabbix
+    source: true
+    proto: http
+    url: repo.zabbix.com/zabbix/3.0/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    keyurl: http://repo.zabbix.com/zabbix-official-repo.key
+
+  - title: ansible
+    source: true
+    proto: http
+    url: ppa.launchpad.net/ansible/ansible/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    gpgkey: 7BB9C367
+
+  - title: haproxy
+    source: true
+    proto: http
+    url: ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    gpgkey: 1C61B9CD
+
+  - title: keepalive
+    source: true
+    proto: http
+    url: ppa.launchpad.net/keepalived/stable/ubuntu
+    distro:
+      - trusty
+    components:
+      - main
+    gpgkey: 7C33BDC6
