@@ -24,7 +24,7 @@ Description
 
 All the repos to install are specified into the var file.
 
-For example, here is how to mirror ubuntu default repos and a ppa:
+For example, here is how to mirror ubuntu default repos a ppa and an external repo:
 
 ```
 repos:
@@ -52,4 +52,14 @@ repos:
     components:
       - main
     gpgkey: E5267A6C
+
+  - title: grafana
+    source: false
+    proto: https
+    url: packagecloud.io/grafana/stable/debian
+    distro:
+      - wheezy
+    components:
+      - main
+    keyurl: https://packagecloud.io/gpg.key
 ```  
