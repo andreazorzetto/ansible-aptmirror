@@ -6,7 +6,7 @@ Install and configure an aptmirror server that can mirros software from:
 - PPAs
 - External repositories
 
-This role can be used together with ansible-apt-repo for the client side.
+This role can be used together with [ansible-apt-repo](https://galaxy.ansible.com/andreazorzetto/Apt-Mirror-Client/) for the client side.
 
 Tasks
 ======
